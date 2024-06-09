@@ -9,7 +9,6 @@ import React, {
 } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import axiosInstance from "../lib/axiosInstance";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
@@ -35,13 +34,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const login = async (us: string, pw: string) => {
+  const login = async (username: string, password: string) => {
     try {
       const response = await axios.post(
         "https://dummyjson.com/auth/login",
         {
-          username: us,
-          password: pw,
+          username: username,
+          password: password,
           expiresInMins: 30,
         },
         {

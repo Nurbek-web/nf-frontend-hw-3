@@ -1,4 +1,6 @@
-import PostsList from "@/components/posts-list";
+import PostsList from "@/app/posts-list";
+import SecuredPage from "@/components/SecuredPage";
+import { useAuth } from "@/context/AuthContext";
 import { fetchPosts } from "@/lib/api";
 
 export default async function Home() {
@@ -8,7 +10,9 @@ export default async function Home() {
 
   return (
     <>
-      <PostsList data={data} />
+      <SecuredPage>
+        <PostsList data={data} />
+      </SecuredPage>
     </>
   );
 }

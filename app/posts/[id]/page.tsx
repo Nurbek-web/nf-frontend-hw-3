@@ -1,4 +1,5 @@
-import PostDetail from "@/components/post-detail";
+import PostDetail from "@/app/posts/[id]/post-detail";
+import SecuredPage from "@/components/SecuredPage";
 import { fetchPost } from "@/lib/api";
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -11,7 +12,9 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <PostDetail post={post} />
+      <SecuredPage>
+        <PostDetail post={post} />
+      </SecuredPage>
     </>
   );
 }
