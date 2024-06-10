@@ -3,101 +3,70 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationLink,
-  PaginationNext,
-} from "@/components/ui/pagination";
+import { Button } from "@/components/ui/button";
 
 export default function PostsList({ data }: any) {
   const [posts, setPosts] = useState(data.posts);
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [postsPerPage] = useState(6);
-  // const indexOfLastPost = currentPage * postsPerPage;
-  // const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  // const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-  // const paginate = (pageNumber: any) => setCurrentPage(pageNumber);
+
+  const handleDelete = (postId: any) => {
+    setPosts((prevPosts: any) =>
+      prevPosts.filter((post: any) => post.id !== postId)
+    );
+  };
+
   return (
     <div className="px-4 py-6 md:px-6 lg:py-16 md:py-12">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post: any) => (
-          <Link href={`/posts/${post.id}`} key={post.id} prefetch={false}>
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-              <CardContent className="p-4 md:p-6">
-                <div className="flex flex-col gap-4">
-                  <div>
-                    <h3 className="text-lg md:text-xl font-semibold">
+          <Card
+            key={post.id}
+            className="overflow-hidden hover:shadow-lg transition-shadow"
+          >
+            <CardContent className="p-4 md:p-6">
+              <div className="flex flex-col gap-4">
+                <div>
+                  <h3 className="text-lg md:text-xl font-semibold">
+                    <Link href={`/posts/${post.id}`} prefetch={false}>
                       {post.title}
-                    </h3>
-                    <div className="flex flex-wrap gap-2 text-sm text-gray-500 dark:text-gray-400 mt-2">
-                      {post.tags.map((tag: any, index: any) => (
-                        <span
-                          key={index}
-                          className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-                    <div className="flex items-center gap-2">
-                      <HeartIcon className="w-4 h-4 fill-red-500" />
-                      <span>{post.reactions.likes}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <ThumbsDownIcon className="w-4 h-4 fill-blue-500" />
-                      <span>{post.reactions.dislikes}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <EyeIcon className="w-4 h-4 fill-green-500" />
-                      <span>{post.views}</span>
-                    </div>
+                    </Link>
+                  </h3>
+                  <div className="flex flex-wrap gap-2 text-sm text-gray-500 dark:text-gray-400 mt-2">
+                    {post.tags.map((tag: any, index: any) => (
+                      <span
+                        key={index}
+                        className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md"
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </Link>
+                <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center gap-2">
+                    <HeartIcon className="w-4 h-4 fill-red-500" />
+                    <span>{post.reactions.likes}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <ThumbsDownIcon className="w-4 h-4 fill-blue-500" />
+                    <span>{post.reactions.dislikes}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <EyeIcon className="w-4 h-4 fill-green-500" />
+                    <span>{post.views}</span>
+                  </div>
+                </div>
+              </div>
+              <Button
+                className="mt-2 w-full"
+                variant="destructive"
+                onClick={() => handleDelete(post.id)}
+              >
+                Delete
+              </Button>
+            </CardContent>
+          </Card>
         ))}
       </div>
-      {/* <div className="flex justify-center mt-8">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                href="#"
-                onClick={() => paginate(currentPage - 1)}
-                disabled={currentPage === 1}
-              />
-            </PaginationItem>
-            {[...Array(Math.ceil(posts.length / postsPerPage)).keys()].map(
-              (number) => (
-                <PaginationItem key={number}>
-                  <PaginationLink
-                    href="#"
-                    onClick={() => paginate(number + 1)}
-                    isActive={number + 1 === currentPage}
-                  >
-                    {number + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              )
-            )}
-            <PaginationItem>
-              <PaginationNext
-                href="#"
-                onClick={() => paginate(currentPage + 1)}
-                disabled={
-                  currentPage === Math.ceil(posts.length / postsPerPage)
-                }
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div> */}
     </div>
   );
 }
