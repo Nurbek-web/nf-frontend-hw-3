@@ -1,4 +1,5 @@
 import SecuredPage from "@/components/SecuredPage";
+import Navbar from "@/components/navbar";
 
 export default function Layout({
   children,
@@ -7,7 +8,10 @@ export default function Layout({
 }>) {
   return (
     <SecuredPage>
-      <>{children} </>
+      <>
+        <Navbar />
+        {children}{" "}
+      </>
     </SecuredPage>
   );
 }

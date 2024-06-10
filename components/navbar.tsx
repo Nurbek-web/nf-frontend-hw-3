@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { useAuth } from "@/context/AuthContext";
+import { ModeToggle } from "./mode-toggle";
 
 export default function Navbar() {
   const router = useRouter();
@@ -102,6 +103,7 @@ export default function Navbar() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+      <ModeToggle />
     </header>
   );
 }
