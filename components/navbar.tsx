@@ -47,7 +47,7 @@ export default function Navbar() {
         </Link>
         <Link
           className="text-muted-foreground transition-colors hover:text-foreground"
-          href="/about"
+          href="/"
         >
           About
         </Link>

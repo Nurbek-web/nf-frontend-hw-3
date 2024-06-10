@@ -34,9 +34,5 @@ export default function Page({ params }: { params: { id: string } }) {
   if (loading) return <LoadingPage />;
   if (error) return <>This post was not found :(</>;
 
-  return (
-    <SecuredPage>
-      <PostDetail post={post} />
-    </SecuredPage>
-  );
+  return <PostDetail post={post} />;
 }
