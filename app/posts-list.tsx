@@ -5,9 +5,11 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import AddPostForm from "@/components/add-post-form";
+import EditPostForm from "@/components/edit-post-form";
 
 export default function PostsList({ data }: any) {
   const [posts, setPosts] = useState(data.posts);
+  const [editingPost, setEditingPost] = useState(null);
 
   const handleDelete = (postId: any) => {
     setPosts((prevPosts: any) =>
@@ -19,9 +21,29 @@ export default function PostsList({ data }: any) {
     setPosts((prevPosts: any) => [newPost, ...prevPosts]);
   };
 
+  const handleEditPost = (post: any) => {
+    setEditingPost(post);
+  };
+
+  const handleUpdatePost = (updatedPost: any) => {
+    setPosts((prevPosts: any) =>
+      prevPosts.map((post: any) =>
+        post.id === updatedPost.id ? updatedPost : post
+      )
+    );
+    setEditingPost(null);
+  };
+
   return (
     <div>
       <AddPostForm onAddPost={handleAddPost} />
+      {editingPost && (
+        <EditPostForm
+          post={editingPost}
+          onUpdatePost={handleUpdatePost}
+          onCancel={() => setEditingPost(null)}
+        />
+      )}
       <div className="px-4 py-6 md:px-6 lg:py-16 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((post: any) => (
@@ -63,6 +85,13 @@ export default function PostsList({ data }: any) {
                     </div>
                   </div>
                 </div>
+                <Button
+                  className="mt-2 w-full"
+                  variant="secondary"
+                  onClick={() => handleEditPost(post)}
+                >
+                  Edit
+                </Button>
                 <Button
                   className="mt-2 w-full"
                   variant="destructive"
