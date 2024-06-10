@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import AddPostForm from "@/components/add-post-form";
 
 export default function PostsList({ data }: any) {
   const [posts, setPosts] = useState(data.posts);
@@ -14,58 +15,65 @@ export default function PostsList({ data }: any) {
     );
   };
 
+  const handleAddPost = (newPost: any) => {
+    setPosts((prevPosts: any) => [newPost, ...prevPosts]);
+  };
+
   return (
-    <div className="px-4 py-6 md:px-6 lg:py-16 md:py-12">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {posts.map((post: any) => (
-          <Card
-            key={post.id}
-            className="overflow-hidden hover:shadow-lg transition-shadow"
-          >
-            <CardContent className="p-4 md:p-6">
-              <div className="flex flex-col gap-4">
-                <div>
-                  <h3 className="text-lg md:text-xl font-semibold">
-                    <Link href={`/posts/${post.id}`} prefetch={false}>
-                      {post.title}
-                    </Link>
-                  </h3>
-                  <div className="flex flex-wrap gap-2 text-sm text-gray-500 dark:text-gray-400 mt-2">
-                    {post.tags.map((tag: any, index: any) => (
-                      <span
-                        key={index}
-                        className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+    <div>
+      <AddPostForm onAddPost={handleAddPost} />
+      <div className="px-4 py-6 md:px-6 lg:py-16 md:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map((post: any) => (
+            <Card
+              key={post.id}
+              className="overflow-hidden hover:shadow-lg transition-shadow"
+            >
+              <CardContent className="p-4 md:p-6">
+                <div className="flex flex-col gap-4">
+                  <div>
+                    <h3 className="text-lg md:text-xl font-semibold">
+                      <Link href={`/posts/${post.id}`} prefetch={false}>
+                        {post.title}
+                      </Link>
+                    </h3>
+                    <div className="flex flex-wrap gap-2 text-sm text-gray-500 dark:text-gray-400 mt-2">
+                      {post.tags.map((tag: any, index: any) => (
+                        <span
+                          key={index}
+                          className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-md"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center gap-2">
+                      <HeartIcon className="w-4 h-4 fill-red-500" />
+                      <span>{post.reactions.likes}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <ThumbsDownIcon className="w-4 h-4 fill-blue-500" />
+                      <span>{post.reactions.dislikes}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <EyeIcon className="w-4 h-4 fill-green-500" />
+                      <span>{post.views}</span>
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-                  <div className="flex items-center gap-2">
-                    <HeartIcon className="w-4 h-4 fill-red-500" />
-                    <span>{post.reactions.likes}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <ThumbsDownIcon className="w-4 h-4 fill-blue-500" />
-                    <span>{post.reactions.dislikes}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <EyeIcon className="w-4 h-4 fill-green-500" />
-                    <span>{post.views}</span>
-                  </div>
-                </div>
-              </div>
-              <Button
-                className="mt-2 w-full"
-                variant="destructive"
-                onClick={() => handleDelete(post.id)}
-              >
-                Delete
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
+                <Button
+                  className="mt-2 w-full"
+                  variant="destructive"
+                  onClick={() => handleDelete(post.id)}
+                >
+                  Delete
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );

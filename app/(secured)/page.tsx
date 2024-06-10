@@ -2,6 +2,7 @@
 
 import PostsList from "@/app/posts-list";
 import LoadingPage from "@/components/LoadingPage";
+import AddPostForm from "@/components/add-post-form";
 import { useAuth } from "@/context/AuthContext";
 import { fetchPosts } from "@/lib/api";
 import { useEffect, useState } from "react";
