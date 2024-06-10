@@ -9,7 +9,9 @@ export default function SecuredPage({ children }: { children: JSX.Element }) {
   const router = useRouter();
 
   useEffect(() => {
+    console.log(isAuthenticated);
     if (!isAuthenticated) {
+      console.log("REDIRECT");
       router.push("/login");
     }
   }, [isAuthenticated, router]);

@@ -10,8 +10,11 @@ export default function PostDetail({ post }: { post: Post }) {
       <article className="prose prose-gray max-w-none mx-auto lg:max-w-6xl dark:prose-invert">
         <div className="space-y-4 not-prose">
           <div className="flex items-center space-x-4">
-            {post.tags.map((tag: string) => (
-              <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm font-medium dark:bg-gray-800">
+            {post.tags.map((tag: string, index: number) => (
+              <div
+                key={index}
+                className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm font-medium dark:bg-gray-800"
+              >
                 {tag}
               </div>
             ))}

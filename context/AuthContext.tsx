@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import LoadingPage from "@/components/LoadingPage";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
@@ -20,6 +21,7 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
@@ -27,11 +29,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const savedToken = localStorage.getItem("token");
+      console.log(savedToken);
       if (savedToken) {
         setToken(savedToken);
         setIsAuthenticated(true);
       }
     }
+    setLoading(false);
   }, []);
 
   const login = async (username: string, password: string) => {
@@ -74,6 +78,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
     router.push("/login");
   };
+
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout, token }}>

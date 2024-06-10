@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,13 +18,19 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useAuth } from "@/context/AuthContext";
 
 function LoginForm(): JSX.Element {
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState(false);
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/");
+    }
+  }, []);
 
   const handleForm = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -97,12 +103,6 @@ function LoginForm(): JSX.Element {
               <Button type="submit" className="w-full">
                 Login
               </Button>
-
-              <Link href="/">
-                <Button variant="secondary" className="w-full">
-                  Back to home
-                </Button>
-              </Link>
             </div>
           </form>
         </CardContent>
