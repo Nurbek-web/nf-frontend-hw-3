@@ -25,4 +25,20 @@ axiosInstance.interceptors.request.use(
   }
 );
 
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response) {
+      console.error("Response error:", error.response);
+    } else if (error.request) {
+      console.error("Request error:", error.request);
+    } else {
+      console.error("Error message:", error.message);
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default axiosInstance;

@@ -8,7 +8,7 @@ import { fetchPost } from "@/lib/api";
 import { useEffect, useState } from "react";
 
 export default function Page({ params }: { params: { id: string } }) {
-  const [post, setPost] = useState<Post>();
+  const [post, setPost] = useState<Post | null>(null); // Use null instead of undefined
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -34,5 +34,10 @@ export default function Page({ params }: { params: { id: string } }) {
   if (loading) return <LoadingPage />;
   if (error) return <>This post was not found :(</>;
 
-  return <PostDetail post={post} />;
+  // Conditional rendering to ensure post is not null
+  return post ? (
+    <SecuredPage>
+      <PostDetail post={post} />
+    </SecuredPage>
+  ) : null;
 }
